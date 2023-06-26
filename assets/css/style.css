@@ -1,0 +1,20 @@
+body {
+    background-image: url("../img/witch-background.gif");
+    background-size: cover;
+}
+
+#add-new-task {
+    margin: 20px;
+}
+
+.container {
+    margin: auto;
+    
+    background-color: rgba(245, 195, 245, 0.85);
+    width: max-content;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

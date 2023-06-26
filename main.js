@@ -8,10 +8,10 @@ toDoList.innerHTML = localStorage.getItem('toDoList') || "";
 let buttonPresses = localStorage.getItem('buttonPresses') || 0;
 
 // Array that save indexes of tasks
-let taskIndexes = JSON.parse( localStorage.getItem('taskIndexes') ) || [];
+let taskIndexes = JSON.parse(localStorage.getItem('taskIndexes')) || [];
 
 // Function that creates events for Complete Task and Delete Task buttons, given an index
-function createTaskButtons (i) {
+function makeTaskButtons(i) {
     let task = document.getElementById('task-' + i);
     let taskText = document.getElementById('task-text-' + i);
 
@@ -27,16 +27,24 @@ function createTaskButtons (i) {
     // Delete Task
     let deleteButton = document.getElementById("delete-task-" + i);
     deleteButton.addEventListener('click', () => {
-        task.remove();
 
+        task.remove();
         localStorage.setItem('toDoList', toDoList.innerHTML);
+
+        let taskIndex = taskIndexes.indexOf(i);
+        if (taskIndex > -1) {
+            taskIndexes.splice(taskIndex, 1)
+        }
+
+        localStorage.setItem('taskIndexes', JSON.stringify(taskIndexes));
+
     });
 };
 
 
 // Create buttons of already existing tasks
 for (const i of taskIndexes) {
-    createTaskButtons(i);
+    makeTaskButtons(i);
 }
 
 
@@ -47,7 +55,7 @@ form.addEventListener("submit", (e) => {
     localStorage.setItem('buttonPresses', buttonPresses);
 
     taskIndexes.push(buttonPresses);
-    localStorage.setItem('taskIndexes', JSON.stringify(taskIndexes) );
+    localStorage.setItem('taskIndexes', JSON.stringify(taskIndexes));
 
     let newTask = document.createElement('div');
     newTask.className = 'task';
@@ -61,7 +69,39 @@ form.addEventListener("submit", (e) => {
     toDoList.append(newTask);
     localStorage.setItem('toDoList', toDoList.innerHTML);
 
-    createTaskButtons(buttonPresses);
+    makeTaskButtons(buttonPresses);
     inputAddTask.value = "";
+
+})
+
+
+// Implement button to delete all tasks
+
+let deleteAllTasksButton = document.getElementById('delete-all-tasks');
+
+deleteAllTasksButton.addEventListener('click', () => {
+    Swal.fire({
+        title: '¿Estás seguro?',
+        text: "Esta acción es irreversible",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, borrar todas las tareas',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            Swal.fire(
+                '¡Listo!',
+                'Todas las tareas fueron eliminadas.',
+                'success'
+            )
+
+            toDoList.innerHTML = '';
+            buttonPresses = 0;
+        
+            localStorage.clear();
+        }
+    })
 
 })
