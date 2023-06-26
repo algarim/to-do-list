@@ -1,6 +1,18 @@
+@font-face {
+    font-family: 'atari';
+    src: url(../fonts/Atari_16bit.ttf);
+  }
+
 body {
     background-image: url("../img/witch-background.gif");
     background-size: cover;
+    font-family: 'atari';
+
+    font-size: 1.1rem;
+}
+
+h1 {
+    font-weight: normal;
 }
 
 #add-new-task {
@@ -9,12 +21,70 @@ body {
 
 .container {
     margin: auto;
+    padding: 0 15px 15px 15px;
     
     background-color: rgba(245, 195, 245, 0.85);
     width: max-content;
+    max-width: 60vw;
+    border: 1px black solid;
+    border-radius: 10px;
 
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+button {
+    padding: 8px;
+    border-radius: 10px;
+    border: 0;
+
+    font-size: 1.1rem;
+    font-family: 'atari';
+
+    cursor: pointer;
+}
+
+#new-task-button:hover{
+    background-color: rgba(174, 162, 240, 0.85);
+}
+
+.complete-task:hover {
+    background-color: rgba(134, 245, 162, 0.85);
+}
+
+.delete-task:hover{
+    background-color: rgba(245, 134, 134, 0.85);
+}
+
+input{
+    padding: 7px;
+    
+    font-size: 1.1rem;
+    font-family: 'atari';
+}
+
+li {
+    font-size: 1.3rem;
+    text-align: justify;
+    padding-right: 4%;
+}
+
+.task-text{
+    margin-right: 15px;
+}
+
+
+@media (max-width: 800px) {
+
+    .container {
+        max-width: 95vw;
+        padding: 0;
+        padding-bottom: 15px
+    }
+
+    li{
+        padding-right: 5%;
+    }
 }

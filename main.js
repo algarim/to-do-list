@@ -18,8 +18,13 @@ function makeTaskButtons(i) {
     // Complete Task
     let completeButton = document.getElementById("complete-task-" + i);
     completeButton.addEventListener('click', () => {
+        if (taskText.style.color !== 'gray') {
         taskText.style.color = 'gray';
         taskText.style.textDecoration = 'line-through';
+        } else {
+            taskText.style.color = 'black';
+            taskText.style.textDecoration = 'none';
+        }
 
         localStorage.setItem('toDoList', toDoList.innerHTML);
     });
@@ -51,26 +56,30 @@ for (const i of taskIndexes) {
 form.addEventListener("submit", (e) => {
     e.preventDefault();
 
-    buttonPresses++;
-    localStorage.setItem('buttonPresses', buttonPresses);
+    if (inputAddTask.value.trim() !== "") {
 
-    taskIndexes.push(buttonPresses);
-    localStorage.setItem('taskIndexes', JSON.stringify(taskIndexes));
+        buttonPresses++;
+        localStorage.setItem('buttonPresses', buttonPresses);
 
-    let newTask = document.createElement('div');
-    newTask.className = 'task';
-    newTask.id = "task-" + buttonPresses;
-    newTask.innerHTML = `
-    <span id="task-text-${buttonPresses}">${inputAddTask.value}</span>
-    <button id="complete-task-${buttonPresses}">Completada</button>
-    <button id="delete-task-${buttonPresses}">Borrar de la lista</button>
+        taskIndexes.push(buttonPresses);
+        localStorage.setItem('taskIndexes', JSON.stringify(taskIndexes));
+
+        let newTask = document.createElement('li');
+        newTask.className = 'task';
+        newTask.id = "task-" + buttonPresses;
+        newTask.innerHTML = `
+    <span class="task-text" id="task-text-${buttonPresses}">${inputAddTask.value}</span>
+    <button class="complete-task" id="complete-task-${buttonPresses}">Completada</button>
+    <button class="delete-task" id="delete-task-${buttonPresses}">Borrar</button>
     `;
 
-    toDoList.append(newTask);
-    localStorage.setItem('toDoList', toDoList.innerHTML);
+        toDoList.append(newTask);
+        localStorage.setItem('toDoList', toDoList.innerHTML);
 
-    makeTaskButtons(buttonPresses);
-    inputAddTask.value = "";
+        makeTaskButtons(buttonPresses);
+        inputAddTask.value = "";
+
+    }
 
 })
 
@@ -99,7 +108,7 @@ deleteAllTasksButton.addEventListener('click', () => {
 
             toDoList.innerHTML = '';
             buttonPresses = 0;
-        
+
             localStorage.clear();
         }
     })
